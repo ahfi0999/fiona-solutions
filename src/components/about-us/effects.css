@@ -1,0 +1,73 @@
+/* Hover effects copied from the live About page (ElementsKit / Elementor custom CSS).
+   Plain global CSS with an "ab-" prefix: the turbopack "*.css" rule in next.config.ts turns CSS modules into global CSS.
+   (Live also defines a spinning-gradient glow on the banner / stat cards, but it renders behind the section
+   background and is never visible, so it is intentionally not reproduced.) */
+
+/* "What We Do To Guarantee Project Success" info boxes (ElementsKit infobox). */
+.ab-infobox {
+  transition: all 0.4s ease;
+}
+.ab-infobox:hover {
+  background-color: transparent;
+  background-image: radial-gradient(#00adee 0%, rgba(0, 173, 238, 0.62) 100%);
+  box-shadow: -30px 30px 60px 0 rgba(0, 173, 238, 0.1);
+  border-radius: 0;
+}
+.ab-infobox:hover h3,
+.ab-infobox:hover p,
+.ab-infobox:hover svg {
+  color: #fff;
+  fill: #fff;
+}
+
+/* Technology logo tiles (ElementsKit client logo "image switcher", hover from bottom). */
+.ab-tile {
+  position: relative;
+  overflow: hidden;
+  z-index: 5;
+  transition: 0.4s;
+}
+.ab-tile::before {
+  position: absolute;
+  content: "";
+  top: 100%;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-image: linear-gradient(#f7fdff 0%, #f7fdff 100%);
+  transition: 0.3s;
+  z-index: -1;
+}
+.ab-tile:hover {
+  z-index: 6;
+}
+.ab-tile:hover::before {
+  opacity: 1;
+  top: 0;
+}
+.ab-tile-main,
+.ab-tile-hover {
+  transition: 0.4s;
+}
+.ab-tile-hover {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.2);
+}
+.ab-tile:hover .ab-tile-main {
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.2);
+}
+.ab-tile:hover .ab-tile-hover {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Partner logos: live sets saturate(0%) on hover (instant). */
+.ab-partner:hover img {
+  filter: saturate(0%);
+}

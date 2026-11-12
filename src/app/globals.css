@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
+  --color-brand: #00adee;
+  --color-brand-dark: #0091c9;
+  --color-accent: #3b4fe4;
+  --color-ink: #1a1a1a;
+  --color-body: #6e7180;
+  --color-soft: #f7fbff;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* In the base layer so Tailwind utility classes (e.g. text-white) can override these. */
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { color: var(--color-body); font-family: var(--font-poppins), sans-serif; }
+  h1, h2, h3, h4 { color: var(--color-ink); }
+  /* Live layering: every page's first section (the banner) has z-index 10 and slides over the
+     blue sticky header (z-index 9), which only becomes visible once the banner has scrolled past.
+     In the base layer so a page can still override it with utility classes. */
+  main > :first-child { position: relative; z-index: 10; }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---- Entrance animations (used by <Reveal>), same curves as Elementor/animate.css ---- */
+.reveal-hidden { visibility: hidden; }
+[class*="reveal-fade"], [class*="reveal-zoom"] { animation-fill-mode: both; animation-timing-function: ease; }
+.reveal-fadeIn { animation-name: fiFadeIn; }
+.reveal-fadeInUp { animation-name: fiFadeInUp; }
+.reveal-fadeInDown { animation-name: fiFadeInDown; }
+.reveal-fadeInLeft { animation-name: fiFadeInLeft; }
+.reveal-fadeInRight { animation-name: fiFadeInRight; }
+.reveal-zoomIn { animation-name: fiZoomIn; }
+@keyframes fiFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fiFadeInUp { from { opacity: 0; transform: translate3d(0, 100%, 0); } to { opacity: 1; transform: none; } }
+@keyframes fiFadeInDown { from { opacity: 0; transform: translate3d(0, -100%, 0); } to { opacity: 1; transform: none; } }
+@keyframes fiFadeInLeft { from { opacity: 0; transform: translate3d(-100%, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes fiFadeInRight { from { opacity: 0; transform: translate3d(100%, 0, 0); } to { opacity: 1; transform: none; } }
+@keyframes fiZoomIn { from { opacity: 0; transform: scale3d(0.3, 0.3, 0.3); } 50% { opacity: 1; } }
+
+/* ---- Elementor "float" hover animation (live: elementor-animation-float) ---- */
+.hover-float { transition: transform 0.3s ease-out; }
+.hover-float:hover, .hover-float:focus, .hover-float:active { transform: translateY(-8px); }
+
+/* ---- Rotating gradient glow on hover (live: highlight cards, feature pills, "Who We Are" cards) ----
+   A 102% gradient frame + a blurred copy behind the element, the gradient angle spinning every 2.5s.
+   The element's parent must be a stacking context (e.g. `isolate`) for the frame to show on its card. */
+@property --fi-rotate { syntax: "<angle>"; inherits: false; initial-value: 132deg; }
+@keyframes fiSpin { from { --fi-rotate: 0deg; } to { --fi-rotate: 360deg; } }
+.spin-glow { position: relative; }
+.spin-glow::before, .spin-glow::after { content: ""; opacity: 0; transition: 0.5s ease-in-out; }
+.spin-glow:hover::before, .spin-glow:hover::after {
+  position: absolute; z-index: -1; opacity: 1;
+  background-image: linear-gradient(var(--fi-rotate), #00adee, #ffffff 43%, #00adee);
+  animation: fiSpin 2.5s linear infinite;
+}
+.spin-glow:hover::before { width: 102%; height: 102%; border-radius: 8px; top: -1%; left: -1%; }
+.spin-glow:hover::after { top: 0; left: 0; right: 0; width: 100%; height: 100%; transform: scale(0.9); filter: blur(80px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-hidden { visibility: visible; }
+  [class*="reveal-fade"], [class*="reveal-zoom"] { animation: none !important; }
 }

@@ -1,0 +1,158 @@
+/* Hover effects for the group-B service pages, copied from the live Elementor / ElementsKit CSS.
+   Global CSS: every class is prefixed `sb-` (see ./effects.ts). */
+
+/* ---- Feature cards under the hero: spinning gradient ring + blurred glow (Elementor custom CSS). ---- */
+@property --rotate {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 132deg;
+}
+
+@keyframes sbSpin {
+  0% { --rotate: 0deg; }
+  100% { --rotate: 360deg; }
+}
+
+/* Live: the spinning container is `position: relative; z-index: 10`, its inner white box too. */
+.sb-spin {
+  position: relative;
+  z-index: 10;
+  --first-color: #00adee;
+  --second-color: #ffffff;
+  --third-color: #00adee;
+}
+.sb-spin::before,
+.sb-spin::after {
+  content: "";
+  opacity: 0;
+  transition: 0.5s ease-in-out;
+}
+.sb-spin:hover::before,
+.sb-spin:hover::after {
+  position: absolute;
+  z-index: -1;
+  background-image: linear-gradient(var(--rotate), var(--first-color), var(--second-color) 43%, var(--third-color));
+  animation: sbSpin 2.5s linear infinite;
+  opacity: 1;
+}
+.sb-spin:hover::before {
+  width: 102%;
+  height: 102%;
+  border-radius: 8px;
+  top: -1%;
+  left: -1%;
+}
+.sb-spin:hover::after {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  transform: scale(0.9);
+  filter: blur(80px);
+}
+.sb-spinInner {
+  position: relative;
+  z-index: 10;
+  background: #fff;
+}
+
+/* ---- ElementsKit info box: blue gradient fill on hover, text + icon turn white. ---- */
+.sb-box {
+  transition: 0.4s;
+}
+.sb-box :is(h3, p, svg) {
+  transition: 0.4s;
+}
+/* Live hover sets `border-width: 0 0 0 3px` (computes to 2.4px there): thick / right borders become a thin left one. */
+.sb-box:hover {
+  background-color: transparent;
+  box-shadow: -30px 30px 60px 0 rgba(0, 173, 238, 0.1);
+  border-style: solid;
+  border-width: 0 0 0 2.4px;
+  border-color: #00adee;
+  border-radius: 0;
+}
+.sb-box:hover :is(h3, p) {
+  color: #fff;
+}
+.sb-box:hover svg {
+  fill: #fff;
+}
+.sb-radial:hover {
+  background-image: radial-gradient(#00adee 0%, rgba(0, 173, 238, 0.62) 100%);
+}
+.sb-linear:hover {
+  background-image: linear-gradient(#00adee 0%, #009fdb 100%);
+}
+
+/* ---- Data & Analytics tab cards: thick left border shrinks, title + icon circle turn blue. ---- */
+.sb-tabCard {
+  transition: box-shadow 0.3s;
+}
+.sb-tabCard:hover {
+  box-shadow: -8px -18px 50px 10px rgba(0, 173, 238, 0.1);
+}
+.sb-tabCardBox {
+  transition: 0.4s;
+}
+.sb-tabCard:hover .sb-tabCardBox {
+  border-left-width: 2.4px;
+  border-radius: 0;
+}
+.sb-tabCardBox :is(h3, p) {
+  transition: 0.4s;
+}
+.sb-tabCard:hover .sb-tabCardBox h3 {
+  color: #00adee;
+}
+.sb-tabCardIcon {
+  border: 0 solid #00adee;
+}
+.sb-tabCard:hover .sb-tabCardIcon {
+  background-color: #00adee;
+  border-width: 0.8px;
+}
+.sb-tabCard:hover .sb-tabCardIcon svg {
+  fill: #fff;
+}
+
+/* ---- ElementsKit image box (cyber threats, IT portfolio, SEO process). ---- */
+.sb-imgCard {
+  transition: box-shadow 0.3s;
+}
+.sb-imgCard:hover {
+  box-shadow: -30px 30px 60px 0 rgba(0, 173, 238, 0.1);
+}
+.sb-imgWrap {
+  overflow: hidden;
+}
+.sb-imgWrap img {
+  transition: 0.4s;
+}
+.sb-imgCard:hover .sb-imgWrap img {
+  transform: scale(1.1);
+}
+.sb-imgBody {
+  transition: border-color 0.3s;
+}
+.sb-imgCard:hover .sb-imgBody {
+  border-left-color: #00adee;
+}
+.sb-imgCard h3 {
+  transition: 0.4s;
+}
+.sb-imgCard:hover h3 {
+  color: #00adee;
+}
+
+/* ---- Training course cards: right border flips to the left, corners square off. ---- */
+.sb-course {
+  transition: 0.4s;
+}
+.sb-course:hover {
+  box-shadow: -30px 30px 60px 0 rgba(0, 173, 238, 0.1);
+  border-style: solid;
+  border-width: 0 0 0 4.8px;
+  border-radius: 0;
+}
